@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="Wojtek" content="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <title>Page with use Bootstrap</title>
+
+    <link href="style.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="node_modules/tablesorter/dist/js/jquery.tablesorter.js"></script>
+    <link rel="stylesheet" href="node_modules/tablesorter/dist/css/theme.blue.css">
+    <script type="text/javascript" src="node_modules/tablesorter/dist/js/jquery.tablesorter.widgets.js"></script>
+    <script>
+        $(function(){
+            $('#myTable').tablesorter({
+                widgets        : ['zebra', 'columns'],
+                usNumberFormat : false,
+                sortReset      : true,
+                sortRestart    : true
+            });
+        });
+    </script>
+</head>
+
+
+<body>
+
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="index.html">WojtekPageBootstrap</a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link"
+                            href="http://lcieszynski.zut.edu.pl/fileadmin/DPD/instrukcja_2019.pdf">Instrukcja
+                            <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://getbootstrap.com/">Boostrap</a>
+                    </li>
+
+                </ul>
+                <form class="form-inline mt-2 mt-md-0">
+                    <button class="btn btn btn-primary my-2 my-sm-0" type="submit" id="koszyk">Koszyk</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="nav-down">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="alert alert-dark" style="text-align: center; height: auto;">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, mollitia illo voluptatem sint a
+                    sed tempore veniam corporis neque alias, earum nostrum animi ipsa vitae aspernatur, unde
+                    explicabo culpa. Doloremque? </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="alert alert-dark" style="text-align: center; height: auto;">
+                    <h3 style="text-align:center;"> Dodaj produkt</h3>
+                    <form>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Nazwa produktu</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="Wpisz nazwe produktu"
+                                    id="nazwaProduktu" onblur="nazwaWalidacja()">
+                                <div id="nazwaProduktuError"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Kod towaru</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="kodProduktu"
+                                    placeholder="Wpisz kod produktu" onblur="kodWalidacja()">
+                                <div id="kodProduktuError"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Cena netto (zł)</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="cenaNetto" placeholder="Wpisz cene netto"
+                                    onblur="nettoWalidacja()">
+                                <div id="cenaNettoError"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">stawka VAT (%)</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="vatProdukt"
+                                    placeholder="Wpisz wartosc VAT" onblur="vatWalidacja()">
+                                <div id="vatProduktError"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Cena brutto (zł)</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="cenaBrutto" placeholder="Wpisz cene brutto"
+                                    onblur="vatOblicz()" readonly="readonly">
+                                <div id="cenaBruttoError"></div>
+                            </div>
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Kategoria towaru</legend>
+                                <div class="col-sm-10">
+                                    <select class="custom-select" id="categoryProduct" onblur="categoryProducts()">
+                                        <option selected>Wybierz kategorie</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                    <div id="categoryProductError"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="form-group row">
+                            <label for="inputOpis" class="col-sm-2 col-form-label">Opis produktu</label>
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline2" value="Drogi"
+                                    onclick="return checkBox()">
+                                <label class="custom-control-label" for="defaultInline2">Drogi</label>
+                            </div>
+
+                            <!-- Default inline 3-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline3" value="Lekki"
+                                    onclick="return checkBox()">
+                                <label class="custom-control-label" for="defaultInline3">Lekki</label>
+                            </div>
+
+                            <!-- Default inline 4-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline4"
+                                    value="Uzyteczny" onclick="return checkBox()">
+                                <label class="custom-control-label" for="defaultInline4">Uzyteczny</label>
+                            </div>
+
+                            <!-- Default inline 3-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline5" value="Ciezki"
+                                    onclick="return checkBox()">
+                                <label class="custom-control-label" for="defaultInline5">Ciezki</label>
+                            </div>
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="defaultInline6"
+                                    value="Bezuzyteczny" onclick="return checkBox()">
+                                <label class="custom-control-label" for="defaultInline6">Bezuzyteczny</label>
+                            </div>
+                            <div id="checkBoxError1" style="color : red"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Ocena produktu</label>
+                            <!-- Default inline 1-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input1" id="defaultInline011" value="1"
+                                    onclick="return checkBoxScore()">
+                                <label class="custom-control-label2" for="defaultInline011">1</label>
+                            </div>
+
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input1" id="defaultInline22" value="2"
+                                    onclick="return checkBoxScore()">
+                                <label class="custom-control-label2" for="defaultInline22">2</label>
+                            </div>
+
+                            <!-- Default inline 3-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input1" id="defaultInline33" value="3"
+                                    onclick="return checkBoxScore()">
+                                <label class="custom-control-label2" for="defaultInline33">3</label>
+                            </div>
+
+                            <!-- Default inline 4-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input1" id="defaultInline44" value="4"
+                                    onclick="return checkBoxScore()">
+                                <label class="custom-control-label2" for="defaultInline44">4</label>
+                            </div>
+
+                            <!-- Default inline 3-->
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input1" id="defaultInline55" value="5"
+                                    onclick="return checkBoxScore()">
+                                <label class="custom-control-label2" for="defaultInline55">5</label>
+                            </div>
+                            <div id="checkBoxError2" style="color : red"></div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Zdjęcie produktu</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="Wstaw zdjęcie produktu"
+                                    id="zdjecieProduktu" onblur="zdjecieWalidacja()">
+                                <div id="zdjecieProduktuError"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="button" class="btn btn-primary" id="btn-dodaj">Dodaj produkt</button>
+                                <div id="validationTrue"></div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <table id="myTable" class="tablesorter-blue" >
+                    <thead>
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Email</th>
+                            <th>Due</th>
+                            <th>Web Site</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Smith</td>
+                            <td>John</td>
+                            <td>jsmith@gmail.com</td>
+                            <td>$50.00</td>
+                            <td>http://www.jsmith.com</td>
+                        </tr>
+                        <tr>
+                            <td>Bach</td>
+                            <td>Frank</td>
+                            <td>fbach@yahoo.com</td>
+                            <td>$50.00</td>
+                            <td>http://www.frank.com</td>
+                        </tr>
+                        <tr>
+                            <td>Doe</td>
+                            <td>Jason</td>
+                            <td>jdoe@hotmail.com</td>
+                            <td>$100.00</td>
+                            <td>http://www.jdoe.com</td>
+                        </tr>
+                        <tr>
+                            <td>Conway</td>
+                            <td>Tim</td>
+                            <td>tconway@earthlink.net</td>
+                            <td>$50.00</td>
+                            <td>http://www.timconway.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-2">
+                <div class="alert alert-dark" style="text-align: center; height: auto;">
+                    <img src="jpg.jpg" height="100px" alt="Foto"><br />
+                    <span>Wojciech</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">Wojciech Olejnik &copy; 2019</span>
+        </div>
+    </footer>
+
+    <script src="validation.js"></script>
+   
+WWWW
+</body>
+
+</html>
