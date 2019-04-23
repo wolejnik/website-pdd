@@ -189,17 +189,20 @@ function categoryProducts() {
 
 
 let newVar1 = 0;
+let test = ',';
 
 function checkBox() {
 
   let count;
-
+  
   for (count = 0; count < classInput1.length; count++) {
     if (classInput1[count].checked == true) {
       newVar1 += 1;
+      test += classInput1[count].value + ',';
       console.log(classInput1[count].value);
     }
   }
+  test.slice(-1, test.length);
 
   if (newVar1 <= 1) {
     divErrorCheckBox1.innerHTML = "Proszę o zaznaczenie dwoch lub więcej";
@@ -293,15 +296,31 @@ btnDodaj.addEventListener("click", e => {
     zdjecieProduktuError.innerHTML = "<span style='color:red'>Podaj zdjecie produktu </span>";
   }
 
+  if (statusValidation) {
+    document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
+
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td></tr>' + '</td><td>' +  + '</td></tr>'+ '</td><td>' + categoryProductsBox.value + '</td></tr>';
+    $row = $(row),
+
+
+
+    resort = true;
+  $('table')
+    .find('tbody').append($row)
+    .trigger('addRows', [$row, resort]);
+  return false;
+
+
+  } else {
+    document.getElementById('validationTrue').innerHTML = "";
+    console.log('koniec' + statusValidation);
+  }
+
 });
 
 
 
 
-  if (statusValidation) {
-    document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
-  } else {
-    document.getElementById('validationTrue').innerHTML = "";
-    console.log(statusValidation);
 
-  }
+ 
+
