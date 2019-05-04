@@ -188,8 +188,8 @@ function categoryProducts() {
 }
 
 
-let newVar1 = 0;
-let test = ',';
+let countElements = 0;
+let testLen = "";
 
 function checkBox() {
 
@@ -197,14 +197,13 @@ function checkBox() {
   
   for (count = 0; count < classInput1.length; count++) {
     if (classInput1[count].checked == true) {
-      newVar1 += 1;
-      test += classInput1[count].value + ',';
-      console.log(classInput1[count].value);
+      countElements += 1;
+      testLen += ',' + classInput1[count].value;
     }
   }
-  test.slice(-1, test.length);
+  testLen.slice(2, testLen.length);
 
-  if (newVar1 <= 1) {
+  if (countElements <= 1) {
     divErrorCheckBox1.innerHTML = "Proszę o zaznaczenie dwoch lub więcej";
     return;
   } else {
@@ -213,6 +212,7 @@ function checkBox() {
   }
 }
 let newVar2 = 0;
+let degreesProduct;
 
 function checkBoxScore() {
 
@@ -221,8 +221,9 @@ function checkBoxScore() {
   for (count = 0; count < classInput2.length; count++) {
     if (classInput2[count].checked == true) {
       newVar2 += 1;
-      console.log(classInput2[count].value);
-    }
+      //console.log(classInput2[count].value);
+      degreesProduct = classInput2[count].value;
+      }
   }
 
   if (newVar2 >= 2) {
@@ -282,7 +283,7 @@ btnDodaj.addEventListener("click", e => {
     categoryProductError.innerHTML = "<span style='color:red'>Nie wybrano zadnej opcji</span>";
   }
 
-  if (newVar1 <= 2) {
+  if (countElements <= 2) {
     statusValidation = false;
     divErrorCheckBox1.innerHTML = "<span style='color:red'>Nie wybrano zadnej opcji</span>";
   }
@@ -296,12 +297,26 @@ btnDodaj.addEventListener("click", e => {
     zdjecieProduktuError.innerHTML = "<span style='color:red'>Podaj zdjecie produktu </span>";
   }
 
-  if (statusValidation) {
-    document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
+  //sprawdzanie czy nie ma takiego samego w elementu w tablicy po nazawie
+  let table = document.getElementById('myTable');
+  for (let i = 1; i < table.rows.length; i++) {
+      let firstCol = table.rows[i].cells[0]; //first column
+      if (document.getElementById('myTable').rows[i].cells[0].textContent.toLowerCase() === inputNazwaProduktu.value.toLowerCase()) {
+        statusValidation = false;
+        alert("Jest już taki przedmiot w tablicy.");
+        
+      }
+  }
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td></tr>' + '</td><td>' +  + '</td></tr>'+ '</td><td>' + categoryProductsBox.value + '</td></tr>';
+  if (statusValidation) {
+    //document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
+
+
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td></tr>';
     $row = $(row),
 
+    console.log(row);
+    clear();
 
 
     resort = true;
@@ -310,15 +325,58 @@ btnDodaj.addEventListener("click", e => {
     .trigger('addRows', [$row, resort]);
   return false;
 
+  
 
   } else {
     document.getElementById('validationTrue').innerHTML = "";
     console.log('koniec' + statusValidation);
+
   }
 
 });
 
 
+
+
+//czyszczenie pół
+function clear(){
+
+  inputNazwaProduktu.value = "";
+ validationStart(inputNazwaProduktu, divErrorNazwaProduktu);
+ inputKodProduktu.value = "";
+ validationStart(inputKodProduktu, divErrorkodProduktu);
+ inputCenaNetto.value = "";
+ validationStart(inputCenaNetto, divErrorCenaNetto);
+ inputVatProdukt.value = "";
+ validationStart(inputVatProdukt, divErrorVatProdukt);
+ inputCenaBrutto.value = "";
+ validationStart(inputCenaBrutto, divErrorCenaBrutto);
+ categoryProductsBox.selectedIndex = "";
+ categoryProductsBox.classList.remove("is-valid");
+ categoryProductErrorBox.classList.remove("valid-feedback");
+
+ 
+ for (count = 0; count < classInput1.length; count++) {
+  if (classInput1[count].checked) {
+    classInput1[count].checked = false;
+  }
+}
+countElements = 0;
+for (count = 0; count < classInput2.length; count++) {
+  if (classInput2[count].checked) {
+    classInput2[count].checked = false;
+  }
+}
+newVar2 = 0;
+ divErrorCheckBox1.value = "";
+ divErrorCheckBox2.value = "";
+ btnDodaj.value = "";
+ zdjecieProduktu.value = "";
+ validationStart(zdjecieProduktu, zdjecieProduktuError);
+
+ console.log('dupaaaaa');
+ 
+}
 
 
 
