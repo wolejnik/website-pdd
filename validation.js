@@ -18,6 +18,7 @@ const divErrorCheckBox2 = document.getElementById("checkBoxError2");
 const btnDodaj = document.getElementById("btn-dodaj");
 const zdjecieProduktu = document.getElementById("zdjecieProduktu");
 const zdjecieProduktuError = document.getElementById("zdjecieProduktuError");
+const sortedTableBox = document.getElementById("sortedTable");
 
 
 let statusValidation = false;
@@ -193,15 +194,16 @@ let testLen = "";
 
 function checkBox() {
 
+  testLen = "";
   let count;
   
   for (count = 0; count < classInput1.length; count++) {
     if (classInput1[count].checked == true) {
       countElements += 1;
-      testLen += ',' + classInput1[count].value;
+      testLen += classInput1[count].value + ',';
     }
   }
-  testLen.slice(2, testLen.length);
+  testLen = testLen.slice(0, testLen.length - 1);
 
   if (countElements <= 1) {
     divErrorCheckBox1.innerHTML = "Proszę o zaznaczenie dwoch lub więcej";
@@ -211,6 +213,7 @@ function checkBox() {
 
   }
 }
+
 let newVar2 = 0;
 let degreesProduct;
 
@@ -376,6 +379,39 @@ newVar2 = 0;
 
  console.log('dupaaaaa');
  
+}
+
+function sortedTableBy() {
+  var checkProdukt =
+    sortedTableBox.options[sortedTableBox.selectedIndex].text;
+
+  switch (sortedTableBox.value) {
+    case "1":
+    $("#myTable").trigger("sorton", [ [[2,0]] ]);
+      console.log("cena od najniższej");
+      break;
+    case "2":
+    $("#myTable").trigger("sorton", [ [[2,1]] ]);
+    console.log("cena od najwyższej");
+      break;
+    case "3":
+    $("#myTable").trigger("sorton", [ [[7,0]] ]);
+    console.log("ocena od najniższej");
+      break;
+    case "4":
+    $("#myTable").trigger("sorton", [ [[7,1]] ]);
+    console.log("ocena od najwyższej");
+      break;
+    case "5":
+    $("#myTable").trigger("sorton", [ [[0,0]] ]);
+    console.log("nazwa od A");
+      break;
+    case "6":
+    $("#myTable").trigger("sorton", [ [[0,1]] ]);
+    console.log("nazwa od Z");
+      break;
+  }
+
 }
 
 

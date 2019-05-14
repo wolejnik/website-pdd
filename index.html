@@ -217,18 +217,36 @@
                         </div>
                     </form>
                 </div>
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2 pt-0">Sortuj po :</legend>
+                        <div class="col-sm-10">
+                            <select class="custom-select" id="sortedTable" onclick="sortedTableBy()">
+                                <option selected>Sortuj po...</option>
+                                <option value="1">cena od najniższej</option>
+                                <option value="2">cena od najwyższej</option>
+                                <option value="3">ocena od najniższej</option>
+                                <option value="4">ocena od najwyższej</option>
+                                <option value="5">nazwa od A</option>
+                                <option value="6">nazwa od Z</option>
+                            </select>
+                            <div id="categoryProductError"></div>
+                        </div>
+                    </div>
+                </fieldset>
                 <table id="myTable" class="tablesorter-blue">
                     <thead>
                         <tr>
+                            <!-- dodaj klase do nagłówka -->
                             <th>Nazwa produktu</th>
-                            <th>Kod produktu</th>
+                            <th class="sorter-false">Kod produktu</th>
                             <th>Cena netto</th>
-                            <th>VAT</th>
-                            <th>Cena brutto</th>
-                            <th>Kategoria towaru</th>
-                            <th>Opis produktu</th>
+                            <th class="sorter-false">VAT</th>
+                            <th class="sorter-false">Cena brutto</th>
+                            <th class="sorter-false">Kategoria towaru</th>
+                            <th class="sorter-false">Opis produktu</th>
                             <th>Ocena produktu</th>
-                            <th>Zdjęcie produktu</th>
+                            <th class="sorter-false">Zdjęcie produktu</th>
                         </tr>
                     </thead>
                     <tbody>
