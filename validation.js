@@ -315,7 +315,7 @@ btnDodaj.addEventListener("click", e => {
     //document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
 
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td></tr>';
     $row = $(row),
 
     console.log(row);
@@ -381,6 +381,8 @@ newVar2 = 0;
  
 }
 
+//sortowanie po wyznaczoncyh kryteriach
+
 function sortedTableBy() {
   var checkProdukt =
     sortedTableBox.options[sortedTableBox.selectedIndex].text;
@@ -413,6 +415,18 @@ function sortedTableBy() {
   }
 
 }
+
+    // usuwanie wiersza
+
+    $('#myTable').delegate('button.remove', 'click' ,function() {
+      var t = $('table');
+      $(this).closest('tr').remove();
+      t.trigger('update');
+
+      alert("Poprawnie usunięto produkt z tablicy.");
+
+      return false;
+    });
 
 
 

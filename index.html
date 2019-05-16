@@ -47,6 +47,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://getbootstrap.com/">Boostrap</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://mottie.github.io/tablesorter/docs/index.html">Tablesorter</a>
+                    </li>
 
                 </ul>
                 <form class="form-inline mt-2 mt-md-0">
@@ -230,7 +233,6 @@
                                 <option value="5">nazwa od A</option>
                                 <option value="6">nazwa od Z</option>
                             </select>
-                            <div id="categoryProductError"></div>
                         </div>
                     </div>
                 </fieldset>
@@ -247,6 +249,7 @@
                             <th class="sorter-false">Opis produktu</th>
                             <th>Ocena produktu</th>
                             <th class="sorter-false">Zdjęcie produktu</th>
+                            <th class="sorter-false">Usuń</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -260,6 +263,7 @@
                             <td>Cięzki, Drogi</td>
                             <td>4</td>
                             <td>f16.png</td>
+                            <td><button type="button" class="remove" title="Remove this row">X</button></td>
                         </tr>
                         <tr>
                             <td>Rower</td>
@@ -271,6 +275,7 @@
                             <td>Lekki, użyteczny</td>
                             <td>5</td>
                             <td>rower.png</td>
+                            <td><button type="button" class="remove" title="Remove this row">X</button></td>
                         </tr>
                     </tbody>
                 </table>
