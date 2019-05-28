@@ -1,0 +1,11 @@
+[
+    {"nazwa" : "buty", "kod" : "9x-0a", "netto" : "20", "vat" : "50", "brutto" : "30", "kategoria" : "One", "opis" : "Drogi, Lekki", "ocena" : "3", "zdjecie" : "https://tiny.pl/twq37"},
+    {"nazwa" : "opaska", "kod" : "xx-0a", "netto" : "200", "vat" : "10", "brutto" : "220", "kategoria" : "Three", "opis" : "Drogi, Cięzki", "ocena" : "1", "zdjecie" : "https://tiny.pl/twq3r"},
+    {"nazwa" : "laptop", "kod" : "z5-70", "netto" : "5000", "vat" : "10", "brutto" : "5500", "kategoria" : "Three", "opis" : "Lekki, Uzyteczny", "ocena" : "5", "zdjecie" : "https://tiny.pl/twq3j"},
+    {"nazwa" : "dron", "kod" : "7b-6t", "netto" : "2000", "vat" : "30", "brutto" : "2600", "kategoria" : "Two", "opis" : "Lekki, Drogi", "ocena" : "2", "zdjecie" : "https://tiny.pl/twq33"},
+    {"nazwa" : "myszka", "kod" : "x5-11", "netto" : "500", "vat" : "10", "brutto" : "550", "kategoria" : "One", "opis" : "Lekki, Bezuzyteczny", "ocena" : "4", "zdjecie" : "https://tiny.pl/twxhq"},
+    {"nazwa" : "rolki", "kod" : "z5-70", "netto" : "300", "vat" : "100", "brutto" : "600", "kategoria" : "Twp", "opis" : "Lekki", "ocena" : "2", "zdjecie" : "https://tiny.pl/twxhr"},
+    {"nazwa" : "namiot", "kod" : "j5-60", "netto" : "6000", "vat" : "10", "brutto" : "6100", "kategoria" : "Three", "opis" : "Drogi, Uzyteczny", "ocena" : "1", "zdjecie" : "https://tiny.pl/twxht"}
+
+
+]

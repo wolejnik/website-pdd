@@ -66,7 +66,15 @@
                 <div class="alert alert-dark" style="text-align: center; height: auto;">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, mollitia illo voluptatem sint a
                     sed tempore veniam corporis neque alias, earum nostrum animi ipsa vitae aspernatur, unde
-                    explicabo culpa. Doloremque? </div>
+                    explicabo culpa. Doloremque?
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary" onclick="loaderProduct()" id="btn-json" style="width:476.4px; margin:0 auto;">Załaduj plik JSON</button>
+                        <div id="validationTrue"></div>
+                    </div>
+
+                </div>
             </div>
             <div class="col-sm-7">
                 <div class="alert alert-dark" style="text-align: center; height: auto;">
@@ -133,33 +141,33 @@
                                 <!-- Default inline 2-->
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" class="custom-control-input checkbox" name="checkbox-1[]"
-                                        id="defaultInline2" value="Drogi" onclick="return checkBox()">
+                                        id="defaultInline2" value="Drogi" onchange="return checkBox()">
                                     <label class="custom-control-label" for="defaultInline2">Drogi</label>
                                 </div>
 
                                 <!-- Default inline 3-->
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" class="custom-control-input checkbox" name="checkbox-1[]"
-                                        id="defaultInline3" value="Lekki" onclick="return checkBox()">
+                                        id="defaultInline3" value="Lekki" onchange="return checkBox()">
                                     <label class="custom-control-label" for="defaultInline3">Lekki</label>
                                 </div>
 
                                 <!-- Default inline 4-->
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" class="custom-control-input checkbox" name="checkbox-1[]"
-                                        id="defaultInline4" value="Uzyteczny" onclick="return checkBox()">
+                                        id="defaultInline4" value="Uzyteczny" onchange="return checkBox()">
                                     <label class="custom-control-label" for="defaultInline4">Uzyteczny</label>
                                 </div>
 
                                 <!-- Default inline 3-->
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" class="custom-control-input checkbox" name="checkbox-1[]"
-                                        id="defaultInline5" value="Ciezki" onclick="return checkBox()">
+                                        id="defaultInline5" value="Ciezki" onchange="return checkBox()">
                                     <label class="custom-control-label" for="defaultInline5">Ciezki</label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" class="custom-control-input checkbox" name="checkbox-1[]"
-                                        id="defaultInline6" value="Bezuzyteczny" onclick="return checkBox()">
+                                        id="defaultInline6" value="Bezuzyteczny" onchange="return checkBox()">
                                     <label class="custom-control-label" for="defaultInline6">Bezuzyteczny</label>
                                 </div>
                             </form>
@@ -213,7 +221,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <button type="button" class="btn btn-primary" id="btn-dodaj">Dodaj produkt</button>
+                                <button type="button" class="btn btn-primary" onclick="addProduct()" id="btn-dodaj">Dodaj produkt</button>
                                 <div id="validationTrue"></div>
                             </div>
 
@@ -250,6 +258,8 @@
                             <th>Ocena produktu</th>
                             <th class="sorter-false">Zdjęcie produktu</th>
                             <th class="sorter-false">Usuń</th>
+                            <th class="sorter-false">Edytuj</th>
+                            <th class="sorter-false">Kup</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -260,10 +270,12 @@
                             <td>23</td>
                             <td>1230.00</td>
                             <td>One</td>
-                            <td>Cięzki, Drogi</td>
+                            <td>Ciezki, Drogi</td>
                             <td>4</td>
                             <td>f16.png</td>
-                            <td><button type="button" class="remove" title="Remove this row">X</button></td>
+                            <td><button type="button" class="remove" title="Remove this row" onclick="deleteRow()">X</button></td>
+                            <td><button type="button" class="delete" onclick="updateTable()">🖊</button></td>
+                            <td class="use-local-storage"><button type="button">🛒</button></td>
                         </tr>
                         <tr>
                             <td>Rower</td>
@@ -272,10 +284,40 @@
                             <td>50</td>
                             <td>750.00</td>
                             <td>Three</td>
-                            <td>Lekki, użyteczny</td>
+                            <td>Lekki, Uzyteczny, Ciezki, Drogi</td>
                             <td>5</td>
                             <td>rower.png</td>
                             <td><button type="button" class="remove" title="Remove this row">X</button></td>
+                            <td><button type="button" class="delete" onclick="updateTable()">🖊</button></td>
+                            <td class="use-local-storage"><button type="button">🛒</button></td>
+                        </tr>
+                        <tr>
+                            <td>Kask</td>
+                            <td>zx-B1</td>
+                            <td>200.00</td>
+                            <td>20</td>
+                            <td>240.00</td>
+                            <td>Two</td>
+                            <td>Lekki, Uzyteczny</td>
+                            <td>2</td>
+                            <td>kask.png</td>
+                            <td><button type="button" class="remove" title="Remove this row">X</button></td>
+                            <td><button type="button" class="delete" onclick="updateTable()">🖊</button></td>
+                            <td class="use-local-storage"><button type="button">🛒</button></td>
+                        </tr>
+                        <tr>
+                            <td>Bidon</td>
+                            <td>23-B1</td>
+                            <td>100.00</td>
+                            <td>20</td>
+                            <td>120.00</td>
+                            <td>Two</td>
+                            <td>Lekki, Uzyteczny</td>
+                            <td>4</td>
+                            <td>bidon.png</td>
+                            <td><button type="button" class="remove" title="Remove this row">X</button></td>
+                            <td><button type="button" class="delete" onclick="updateTable()">🖊</button></td>
+                            <td class="use-local-storage"><button type="button">🛒</button></td>
                         </tr>
                     </tbody>
                 </table>

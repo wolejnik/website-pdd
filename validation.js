@@ -19,13 +19,17 @@ const btnDodaj = document.getElementById("btn-dodaj");
 const zdjecieProduktu = document.getElementById("zdjecieProduktu");
 const zdjecieProduktuError = document.getElementById("zdjecieProduktuError");
 const sortedTableBox = document.getElementById("sortedTable");
+const myTable = document.getElementById("myTable");
+const dodajProduktBtn = document.getElementById("btn-dodaj");
 
 
 let statusValidation = false;
 
+
 koszyk.addEventListener("click", e => {
   e.preventDefault();
   console.log("click koszyk");
+
 });
 
 const validationStart = (poleInput, poleError) => {
@@ -169,7 +173,7 @@ function categoryProducts() {
   var checkProdukt =
     categoryProductsBox.options[categoryProductsBox.selectedIndex].text;
   statusValidation = false;
-  console.log(categoryProductsBox.selectedIndex);
+  //console.log(categoryProductsBox.selectedIndex);
 
   if (
     categoryProductsBox.selectedIndex == "1" ||
@@ -200,13 +204,13 @@ function checkBox() {
   for (count = 0; count < classInput1.length; count++) {
     if (classInput1[count].checked == true) {
       countElements += 1;
-      testLen += classInput1[count].value + ',';
+      testLen += classInput1[count].value + ', ';
     }
   }
-  testLen = testLen.slice(0, testLen.length - 1);
+  testLen = testLen.slice(0, testLen.length - 2);
 
   if (countElements <= 1) {
-    divErrorCheckBox1.innerHTML = "Proszę o zaznaczenie dwoch lub więcej";
+    //divErrorCheckBox1.innerHTML = "Proszę o zaznaczenie dwoch lub więcej";
     return;
   } else {
     divErrorCheckBox1.innerHTML = "";
@@ -230,7 +234,7 @@ function checkBoxScore() {
   }
 
   if (newVar2 >= 2) {
-    divErrorCheckBox2.innerHTML = "Może zaznaczyć tylko jedna opcje";
+    //divErrorCheckBox2.innerHTML = "Może zaznaczyć tylko jedna opcje";
     return false;
   } else {
     divErrorCheckBox2.innerHTML = "";
@@ -256,7 +260,7 @@ function zdjecieWalidacja() {
   }
 }
 
-btnDodaj.addEventListener("click", e => {
+function addProduct(){
 
   if (inputNazwaProduktu.value == "") {
     statusValidation = false;
@@ -300,6 +304,7 @@ btnDodaj.addEventListener("click", e => {
     zdjecieProduktuError.innerHTML = "<span style='color:red'>Podaj zdjecie produktu </span>";
   }
 
+  if(!statusUpdata){
   //sprawdzanie czy nie ma takiego samego w elementu w tablicy po nazawie
   let table = document.getElementById('myTable');
   for (let i = 1; i < table.rows.length; i++) {
@@ -309,16 +314,17 @@ btnDodaj.addEventListener("click", e => {
         alert("Jest już taki przedmiot w tablicy.");
         
       }
+    }
   }
-
   if (statusValidation) {
     //document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
 
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" class="delete" onclick="updateTable()" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
     $row = $(row),
 
-    console.log(row);
+    // console.log(row);
+    btnDodaj.innerText = "Dodaj produkt";
     clear();
 
 
@@ -332,11 +338,11 @@ btnDodaj.addEventListener("click", e => {
 
   } else {
     document.getElementById('validationTrue').innerHTML = "";
-    console.log('koniec' + statusValidation);
+    //console.log('koniec' + statusValidation);
 
   }
 
-});
+};
 
 
 
@@ -376,8 +382,6 @@ newVar2 = 0;
  btnDodaj.value = "";
  zdjecieProduktu.value = "";
  validationStart(zdjecieProduktu, zdjecieProduktuError);
-
- console.log('dupaaaaa');
  
 }
 
@@ -390,27 +394,21 @@ function sortedTableBy() {
   switch (sortedTableBox.value) {
     case "1":
     $("#myTable").trigger("sorton", [ [[2,0]] ]);
-      console.log("cena od najniższej");
       break;
     case "2":
     $("#myTable").trigger("sorton", [ [[2,1]] ]);
-    console.log("cena od najwyższej");
       break;
     case "3":
     $("#myTable").trigger("sorton", [ [[7,0]] ]);
-    console.log("ocena od najniższej");
       break;
     case "4":
     $("#myTable").trigger("sorton", [ [[7,1]] ]);
-    console.log("ocena od najwyższej");
       break;
     case "5":
     $("#myTable").trigger("sorton", [ [[0,0]] ]);
-    console.log("nazwa od A");
       break;
     case "6":
     $("#myTable").trigger("sorton", [ [[0,1]] ]);
-    console.log("nazwa od Z");
       break;
   }
 
@@ -428,7 +426,176 @@ function sortedTableBy() {
       return false;
     });
 
+    //usuwanie do edycji
+    $('#myTable').delegate('button.delete', 'click' ,function() {
+      var t = $('table');
+      $(this).closest('tr').remove();
+      t.trigger('update');
+
+      return false;
+    });
+
+    
+  //   function deleteRow() {
+  // $('#myTable').delegate('button.delete', 'click' ,function() {
+  //     var t = $('table');
+  //     $(this).closest('tr').remove();
+  //     t.trigger('update');
+
+  //     alert("Poprawnie usunięto produkt z tablicy.");
+
+  //     return false;
+  //   });
+  //   };
 
 
- 
+    //edytowanie wiersza
+    
+    const btnUpdata = document.getElementById("btnUpadata");
+    let opisValue = "";
+    var splitValuesOpis = "";
+    let statusUpdata = false;
+    
+    function updateTable(index) {
 
+      clear();
+      
+
+      $('td').click(function(){
+        var row_index = $(this).parent().index() + 1;
+        statusUpdata = true;
+        btnDodaj.innerText = "Edycja";
+        btnDodaj.onclick = function() { addProductUpdate() };
+        checkBox();
+        checkBox();
+        checkBox();
+        checkBoxScore();
+      
+        inputNazwaProduktu.value = myTable.rows[row_index].cells[0].innerHTML;
+        inputKodProduktu.value = myTable.rows[row_index].cells[1].innerHTML;
+        inputCenaNetto.value = myTable.rows[row_index].cells[2].innerHTML;
+        inputVatProdukt.value = myTable.rows[row_index].cells[3].innerHTML;
+        inputCenaBrutto.value = myTable.rows[row_index].cells[4].innerHTML;
+        categoryProductsBox.value = myTable.rows[row_index].cells[5].innerHTML;
+
+        //zamiana komórki opis protuktu na podedynczne wartośći
+        opisValue = document.getElementById("myTable").rows[row_index].cells[6].innerHTML;
+        splitValuesOpis = opisValue.split(', ');
+        classInput1.forEach(element => {
+          for (let i = 0; i <= splitValuesOpis.length; i++) {
+              if (element.value == splitValuesOpis[i]) {
+                element.checked = true;
+              }
+          }
+        });
+
+        //ocena produktu
+        classInput2.forEach(element => {
+          if (element.value == myTable.rows[row_index].cells[7].innerHTML) {
+              element.checked = true;
+          }
+          
+        });
+
+        zdjecieProduktu.value = myTable.rows[row_index].cells[8].innerHTML;
+     });
+
+    };
+
+
+/*
+
+document.getElementById("myTable").rows[1].cells[7].innerHTML
+
+    klikamy edytuj zaciagamy dane
+    zdjąć ty jesdt taki Element
+
+    wziąść wartość ocena opis produktu rozdzielić ją na poszczególne wartości, przeleciąć i sorawdzać z value jeślo są równe to zmieniacć checked na true
+    po wciśnięciu edycja flaga jet ustawiona na edycje , to pomożę w ominięciu sptawdzania czy pole o tej nazwie jest juz w tabeli
+
+
+    w forze append
+
+    zmiana widoku
+  */
+
+function loaderProduct() {
+  var productsJSON = (function() {
+    var json = null;
+    $.ajax({
+        'async': false,
+        'global': false,
+        'url': "/products.json",
+        'dataType': "json",
+        'success': function (data) {
+            json = data;
+        }
+    });
+    return json;
+})();
+
+var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];;
+productsJSON.forEach(function(object) {
+
+var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.kod + '</td><td>' + object.netto + '</td><td>' + object.vat + '</td><td>' + object.brutto + '</td><td>' + object.kategoria + '</td><td>'+ object.opis +'</td><td>'+ object.ocena +'</td><td>'+ object.zdjecie +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" class="delete" onclick="updateTable()" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+$row = $(row),
+
+clear();
+
+resort = true;
+$('table')
+.find('tbody').append($row)
+.trigger('addRows', [$row, resort]);
+return false;
+
+});
+
+console.log(productsJSON);
+}
+
+
+function addProductUpdate(){
+
+  checkBox();
+  checkBox();
+  checkBox();
+checkBoxScore();
+
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" class="use-address" onclick="updateTable()" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+    $row = $(row),
+
+    btnDodaj.innerText = "Dodaj produkt";
+    btnDodaj.onclick = function() { addProduct() };
+    clear();
+
+
+    resort = true;
+  $('table')
+    .find('tbody').append($row)
+    .trigger('addRows', [$row, resort]);
+  return false;
+
+};
+
+//dodanie produktu do koszyka localStorage
+
+let arrayKoszyk = [];
+
+$(".use-local-storage").on('click', function(event){
+  
+  console.log($(this).parent().index());
+  var row_index = $(this).parent().index() + 1;
+  
+  const ob = {
+    'nazwa': myTable.rows[row_index].cells[0].innerHTML,
+    'cena_brutto': myTable.rows[row_index].cells[4].innerHTML,
+    'ilosc': ""
+  };
+
+  arrayKoszyk.push(ob)
+
+localStorage.setItem('myElement', JSON.stringify(arrayKoszyk));
+
+alert("Pomyślnie dodano produkt do koszyka.");
+
+});
