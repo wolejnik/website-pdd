@@ -62,7 +62,7 @@
 
                 </ul>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" id="cartProducts" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                     Koszyk
                 </button>
             </div>
@@ -356,17 +356,43 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Koszyk</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <table id="myTable2" class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Nazwa</th>
+                            <th>Cena</th>
+                            <th>Ilosc</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                      <div class="form-group">
+                        <label for="curier">Firma kurierska : </label>
+                        <select class="form-control" id="curier">
+                          <option value="15.00">Poczta polska - 15.00 zł</option>
+                          <option value="14.00">UPS - 12.00 zł</option>
+                          <option value="0.00">Odbiór osobisty - 0.00 zł</option>
+                        </select>
+                      </div>
+                      <div>
+                          Cena produktów : <input type="text" class="form-control" id="allProducts" placeholder="łączna cena produktów" readonly="readonly">
+                          <br>
+                          Cena przesyłki : <input type="text" class="form-control" id="costCurier" placeholder="Wpisz cene brutto" readonly="readonly">
+                          <br>
+                          Cena końcowa : <input type="text" class="form-control" id="costAll" placeholder="Cena produktów + koszt przesyłki" readonly="readonly">
+                          <br> 
+                      </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="escCart">Zamknij koszyk</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="buyCart">Kup</button>
                 </div>
             </div>
         </div>

@@ -321,7 +321,7 @@ function addProduct(){
     //document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
 
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button">🛒</button>' + '</td></tr>';
     $row = $(row),
 
     // console.log(row);
@@ -525,23 +525,22 @@ function loaderProduct() {
     return json;
 })();
 
-var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];;
+var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
 productsJSON.forEach(function(object) {
 
-var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.kod + '</td><td>' + object.netto + '</td><td>' + object.vat + '</td><td>' + object.brutto + '</td><td>' + object.kategoria + '</td><td>'+ object.opis +'</td><td>'+ object.ocena +'</td><td>'+ object.zdjecie +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.kod + '</td><td>' + object.netto + '</td><td>' + object.vat + '</td><td>' + object.brutto + '</td><td>' + object.kategoria + '</td><td>'+ object.opis +'</td><td>'+ object.ocena +'</td><td>'+ object.zdjecie +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button">🛒</button>' + '</td></tr>';
 $row = $(row),
 
 clear();
 
 resort = true;
-$('table')
+$('#myTable')
 .find('tbody').append($row)
 .trigger('addRows', [$row, resort]);
 return false;
 
 });
 
-console.log(productsJSON);
 }
 
 
@@ -554,7 +553,7 @@ function addProductUpdate(){
   checkBox();
 checkBoxScore();
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
     $row = $(row),
 
     btnDodaj.innerText = "Dodaj produkt";
@@ -566,10 +565,7 @@ checkBoxScore();
     .find('tbody').append($row)
     .trigger('addRows', [$row, resort]);
   //return false;
-
-  //usuwanie
-  console.log('usuwanie XXXX');
-  
+ 
   var t = $('#myTable tr').eq(row_index).remove();
   
   t.trigger('update');
@@ -588,14 +584,53 @@ $(".use-local-storage").on('click', function(event){
   
   const ob = {
     'nazwa': myTable.rows[row_index].cells[0].innerHTML,
-    'cena_brutto': myTable.rows[row_index].cells[4].innerHTML,
-    'ilosc': ""
+    'cena_brutto': myTable.rows[row_index].cells[4].innerHTML
   };
 
   arrayKoszyk.push(ob)
 
 localStorage.setItem('myElement', JSON.stringify(arrayKoszyk));
 
-alert("Pomyślnie dodano produkt do koszyka.");
 
+
+});
+
+//pokazanie koszyka
+let tableInCart = document.getElementById("myTable2").getElementsByTagName('tbody')[0];
+let tableInCart2 = document.getElementById("myTable2");
+let allCost = 0;
+let costCurier = 0;
+let costProducts = 0;
+
+$('#cartProducts').on('click', (e) => {
+  let jsonCartShopping;
+  for (var i = 0; i < localStorage.length; i++){
+    // do something with localStorage.getItem(localStorage.key(i));
+    jsonCartShopping = JSON.parse(localStorage.getItem(localStorage.key(i)));
+}
+
+jsonCartShopping.forEach(function(object) {
+
+var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.cena_brutto + '</td><td>'+ '<input type="number" name="quantity" value="1" min="1" max="10">' + '</td></tr>';
+$row = $(row),
+
+resort = true;
+$('#myTable2')
+.find('tbody').append($row)
+.trigger('addRows', [$row, resort]);
+
+//TODO
+// for(var i = 1; i < tableInCart2.rows.length; i++)
+// {
+//   costProducts += parseInt( tableInCart2.rows[i].cells[1].innerHTML * tableInCart2.rows[i].cells[2].innerHTML);
+// }
+
+
+
+
+return false;
+
+
+
+});
 });
