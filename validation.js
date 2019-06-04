@@ -26,11 +26,12 @@ const dodajProduktBtn = document.getElementById("btn-dodaj");
 let statusValidation = false;
 
 
-koszyk.addEventListener("click", e => {
-  e.preventDefault();
-  console.log("click koszyk");
+// koszyk.addEventListener("click", e => {
+//   e.preventDefault();
+//   console.log("click koszyk");
 
-});
+// });
+
 
 const validationStart = (poleInput, poleError) => {
   poleInput.classList.remove("is-valid");
@@ -320,7 +321,7 @@ function addProduct(){
     //document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
 
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" class="delete" onclick="updateTable()" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
     $row = $(row),
 
     // console.log(row);
@@ -332,7 +333,7 @@ function addProduct(){
   $('table')
     .find('tbody').append($row)
     .trigger('addRows', [$row, resort]);
-  return false;
+  //return false;
 
   
 
@@ -343,9 +344,6 @@ function addProduct(){
   }
 
 };
-
-
-
 
 //czyszczenie pół
 function clear(){
@@ -435,34 +433,26 @@ function sortedTableBy() {
       return false;
     });
 
-    
-  //   function deleteRow() {
-  // $('#myTable').delegate('button.delete', 'click' ,function() {
-  //     var t = $('table');
-  //     $(this).closest('tr').remove();
-  //     t.trigger('update');
-
-  //     alert("Poprawnie usunięto produkt z tablicy.");
-
-  //     return false;
-  //   });
-  //   };
-
-
     //edytowanie wiersza
     
     const btnUpdata = document.getElementById("btnUpadata");
     let opisValue = "";
     var splitValuesOpis = "";
     let statusUpdata = false;
+    let index;
+    let row_index;
     
     function updateTable(index) {
 
       clear();
+
+      console.log($(this).closest('td').parent());
       
 
       $('td').click(function(){
-        var row_index = $(this).parent().index() + 1;
+         row_index = $(this).parent().index() + 1;
+        console.log(row_index);
+        
         statusUpdata = true;
         btnDodaj.innerText = "Edycja";
         btnDodaj.onclick = function() { addProductUpdate() };
@@ -498,6 +488,8 @@ function sortedTableBy() {
         });
 
         zdjecieProduktu.value = myTable.rows[row_index].cells[8].innerHTML;
+
+       
      });
 
     };
@@ -505,16 +497,15 @@ function sortedTableBy() {
 
 /*
 
-document.getElementById("myTable").rows[1].cells[7].innerHTML
-
-    klikamy edytuj zaciagamy dane
-    zdjąć ty jesdt taki Element
-
     wziąść wartość ocena opis produktu rozdzielić ją na poszczególne wartości, przeleciąć i sorawdzać z value jeślo są równe to zmieniacć checked na true
     po wciśnięciu edycja flaga jet ustawiona na edycje , to pomożę w ominięciu sptawdzania czy pole o tej nazwie jest juz w tabeli
 
 
     w forze append
+
+    selcet o przesyłce (2 firmy)
+    ilość sztuk (suma za) input type numer, minumum value = 1, 
+    jak zamykamy local storge to nie 
 
     zmiana widoku
   */
@@ -537,7 +528,7 @@ function loaderProduct() {
 var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];;
 productsJSON.forEach(function(object) {
 
-var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.kod + '</td><td>' + object.netto + '</td><td>' + object.vat + '</td><td>' + object.brutto + '</td><td>' + object.kategoria + '</td><td>'+ object.opis +'</td><td>'+ object.ocena +'</td><td>'+ object.zdjecie +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" class="delete" onclick="updateTable()" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.kod + '</td><td>' + object.netto + '</td><td>' + object.vat + '</td><td>' + object.brutto + '</td><td>' + object.kategoria + '</td><td>'+ object.opis +'</td><td>'+ object.ocena +'</td><td>'+ object.zdjecie +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
 $row = $(row),
 
 clear();
@@ -554,6 +545,8 @@ console.log(productsJSON);
 }
 
 
+
+
 function addProductUpdate(){
 
   checkBox();
@@ -561,20 +554,27 @@ function addProductUpdate(){
   checkBox();
 checkBoxScore();
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" class="use-address" onclick="updateTable()" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td>' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
     $row = $(row),
 
     btnDodaj.innerText = "Dodaj produkt";
-    btnDodaj.onclick = function() { addProduct() };
-    clear();
 
+    clear();
 
     resort = true;
   $('table')
     .find('tbody').append($row)
     .trigger('addRows', [$row, resort]);
-  return false;
+  //return false;
 
+  //usuwanie
+  console.log('usuwanie XXXX');
+  
+  var t = $('#myTable tr').eq(row_index).remove();
+  
+  t.trigger('update');
+
+  return false;
 };
 
 //dodanie produktu do koszyka localStorage
@@ -584,7 +584,7 @@ let arrayKoszyk = [];
 $(".use-local-storage").on('click', function(event){
   
   console.log($(this).parent().index());
-  var row_index = $(this).parent().index() + 1;
+  row_index = $(this).parent().index() + 1; // pobrany index wiersza
   
   const ob = {
     'nazwa': myTable.rows[row_index].cells[0].innerHTML,
