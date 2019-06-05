@@ -21,6 +21,7 @@ const zdjecieProduktuError = document.getElementById("zdjecieProduktuError");
 const sortedTableBox = document.getElementById("sortedTable");
 const myTable = document.getElementById("myTable");
 const dodajProduktBtn = document.getElementById("btn-dodaj");
+const curierBox = document.getElementById("curier");
 
 
 let statusValidation = false;
@@ -587,20 +588,21 @@ $(".use-local-storage").on('click', function(event){
     'cena_brutto': myTable.rows[row_index].cells[4].innerHTML
   };
 
-  arrayKoszyk.push(ob)
+  arrayKoszyk.push(ob);
 
-localStorage.setItem('myElement', JSON.stringify(arrayKoszyk));
-
-
+ localStorage.setItem('myElement', JSON.stringify(arrayKoszyk));
 
 });
 
 //pokazanie koszyka
 let tableInCart = document.getElementById("myTable2").getElementsByTagName('tbody')[0];
 let tableInCart2 = document.getElementById("myTable2");
+let allProductsCost = 0;
 let allCost = 0;
 let costCurier = 0;
-let costProducts = 0;
+let inCartProducts = [];
+let valueProductsInCart = [];
+
 
 $('#cartProducts').on('click', (e) => {
   let jsonCartShopping;
@@ -609,9 +611,11 @@ $('#cartProducts').on('click', (e) => {
     jsonCartShopping = JSON.parse(localStorage.getItem(localStorage.key(i)));
 }
 
+
+
 jsonCartShopping.forEach(function(object) {
 
-var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.cena_brutto + '</td><td>'+ '<input type="number" name="quantity" value="1" min="1" max="10">' + '</td></tr>';
+var row = '<tr><td>'+ object.nazwa +'</td><td class="costProduct">' + object.cena_brutto + '</td><td>'+ '<input onchange="calculationCart()" type="number" name="quantity" value="1" min="1" max="10">' + '</td></tr>';
 $row = $(row),
 
 resort = true;
@@ -619,18 +623,57 @@ $('#myTable2')
 .find('tbody').append($row)
 .trigger('addRows', [$row, resort]);
 
-//TODO
-// for(var i = 1; i < tableInCart2.rows.length; i++)
-// {
-//   costProducts += parseInt( tableInCart2.rows[i].cells[1].innerHTML * tableInCart2.rows[i].cells[2].innerHTML);
-// }
-
-
-
+calculationCart();
 
 return false;
 
+});
+
+//
+});
+
+const allProductInput = document.getElementById('allProducts');
+const costCurierInput = document.getElementById('costCurier');
+const allCostInput = document.getElementById('costAll');
 
 
-});
-});
+function calculationCart() {
+
+  allProductsCost = 0;
+  
+inCartProducts = [...document.getElementsByName('quantity')];
+valueProductsInCart = [...document.getElementsByClassName('costProduct')];
+  
+for(var i = 0; i < inCartProducts.length; i++)
+{
+  let tmpCostOneProduct = inCartProducts[i].value * valueProductsInCart[i].innerHTML;
+  allProductsCost += tmpCostOneProduct;
+  
+}
+allProductInput.value = allProductsCost + '.00 zł';
+console.log(allProductsCost);
+
+}
+
+function selectedCurier() {
+  var checkCurier =
+  curierBox.options[curierBox.selectedIndex].text;
+
+  switch (curierBox.value) {
+    case "15":
+    console.log(curierBox.value);
+    costCurierInput.value = curierBox.value + '.00 zł';
+      break;
+    case "12":
+    costCurierInput.value = curierBox.value + '.00 zł';
+      break;
+    case "0":
+    costCurierInput.value = curierBox.value + '.00 zł';
+      break;
+
+  }
+
+  allCostInput.value = (parseFloat(allProductsCost) + parseFloat(curierBox.value)).toFixed(2) + ' zł';
+
+}
+

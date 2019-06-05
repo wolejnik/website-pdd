@@ -375,10 +375,11 @@
                       </table>
                       <div class="form-group">
                         <label for="curier">Firma kurierska : </label>
-                        <select class="form-control" id="curier">
-                          <option value="15.00">Poczta polska - 15.00 zł</option>
-                          <option value="14.00">UPS - 12.00 zł</option>
-                          <option value="0.00">Odbiór osobisty - 0.00 zł</option>
+                        <select class="form-control" id="curier" onclick="selectedCurier()">
+                          <option selected>Wybierz sposób dostawy</option>
+                          <option value="15">Poczta polska - 15.00 zł</option>
+                          <option value="12">UPS - 12.00 zł</option>
+                          <option value="0">Odbiór osobisty - 0.00 zł</option>
                         </select>
                       </div>
                       <div>
