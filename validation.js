@@ -22,6 +22,7 @@ const sortedTableBox = document.getElementById("sortedTable");
 const myTable = document.getElementById("myTable");
 const dodajProduktBtn = document.getElementById("btn-dodaj");
 const curierBox = document.getElementById("curier");
+const buyCart = document.getElementById("buyCart");
 
 
 let statusValidation = false;
@@ -322,7 +323,7 @@ function addProduct(){
     //document.getElementById('validationTrue').innerHTML = "<span style='color:green'>Poprawna walidacja danych</span>";
 
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button">🛒</button>' + '</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button">🛒</button>' + '</td></tr>';
     $row = $(row),
 
     // console.log(row);
@@ -331,7 +332,7 @@ function addProduct(){
 
 
     resort = true;
-  $('table')
+  $('#myTable')
     .find('tbody').append($row)
     .trigger('addRows', [$row, resort]);
   //return false;
@@ -441,7 +442,8 @@ function sortedTableBy() {
     var splitValuesOpis = "";
     let statusUpdata = false;
     let index;
-    let row_index;
+    let row_index = 0;
+    let row_indexTmp = 0;
     
     function updateTable(index) {
 
@@ -529,7 +531,7 @@ function loaderProduct() {
 var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
 productsJSON.forEach(function(object) {
 
-var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.kod + '</td><td>' + object.netto + '</td><td>' + object.vat + '</td><td>' + object.brutto + '</td><td>' + object.kategoria + '</td><td>'+ object.opis +'</td><td>'+ object.ocena +'</td><td>'+ object.zdjecie +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button">🛒</button>' + '</td></tr>';
+var row = '<tr><td>'+ object.nazwa +'</td><td>' + object.kod + '</td><td>' + object.netto + '</td><td>' + object.vat + '</td><td>' + object.brutto + '</td><td>' + object.kategoria + '</td><td>'+ object.opis +'</td><td>'+ object.ocena +'</td><td>'+ object.zdjecie +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' + '</td><td class="use-local-storage">' + '<button type="button">🛒</button>' + '</td></tr>';
 $row = $(row),
 
 clear();
@@ -554,7 +556,7 @@ function addProductUpdate(){
   checkBox();
 checkBoxScore();
 
-    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>'+ degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button" class="use-address">🛒</button>' + '</td></tr>';
+    var row = '<tr><td>'+ inputNazwaProduktu.value +'</td><td>' + inputKodProduktu.value + '</td><td>' + inputCenaNetto.value + '</td><td>' + inputVatProdukt.value + '</td><td>' + inputCenaBrutto.value + '</td><td>' + categoryProductsBox.value + '</td><td>'+ testLen +'</td><td>' + degreesProduct +'</td><td>'+ zdjecieProduktu.value +'</td><td>'+ '<button type="button" class="remove" title="Remove this row">X</button>' +'</td><td>'+ '<button type="button" onclick="updateTable(this)" title="Upadata this row">🖊</button>' +'</td><td class="use-local-storage">' + '<button type="button">🛒</button>' + '</td></tr>';
     $row = $(row),
 
     btnDodaj.innerText = "Dodaj produkt";
@@ -562,7 +564,7 @@ checkBoxScore();
     clear();
 
     resort = true;
-  $('table')
+  $('#myTable')
     .find('tbody').append($row)
     .trigger('addRows', [$row, resort]);
   //return false;
@@ -578,19 +580,36 @@ checkBoxScore();
 
 let arrayKoszyk = [];
 
-$(".use-local-storage").on('click', function(event){
+$("td.use-local-storage").on('click', function(event){
+
+  console.log('dodaj do koszyka');
   
-  console.log($(this).parent().index());
   row_index = $(this).parent().index() + 1; // pobrany index wiersza
+
+  if(row_index != row_indexTmp){
+    const ob = {
+      'nazwa': myTable.rows[row_index].cells[0].innerHTML,
+      'cena_brutto': myTable.rows[row_index].cells[4].innerHTML
+    };
   
-  const ob = {
-    'nazwa': myTable.rows[row_index].cells[0].innerHTML,
-    'cena_brutto': myTable.rows[row_index].cells[4].innerHTML
-  };
+    arrayKoszyk.push(ob);
+  
+   localStorage.setItem('myElement', JSON.stringify(arrayKoszyk));
 
-  arrayKoszyk.push(ob);
+   var row = '<tr><td>'+ ob.nazwa +'</td><td class="costProduct">' + ob.cena_brutto + '</td><td>'+ '<input onchange="calculationCart()" type="number" name="quantity" value="1" min="1" max="10">' + '</td></tr>';
+    $row = $(row),
+    
+    resort2 = true;
+    $('#myTable2')
+    .find('tbody').append($row)
+    .trigger('addRows', [$row, resort2]);
+    
+    calculationCart();
 
- localStorage.setItem('myElement', JSON.stringify(arrayKoszyk));
+
+  }
+  row_indexTmp = row_index;
+  
 
 });
 
@@ -604,33 +623,7 @@ let inCartProducts = [];
 let valueProductsInCart = [];
 
 
-$('#cartProducts').on('click', (e) => {
-  let jsonCartShopping;
-  for (var i = 0; i < localStorage.length; i++){
-    // do something with localStorage.getItem(localStorage.key(i));
-    jsonCartShopping = JSON.parse(localStorage.getItem(localStorage.key(i)));
-}
 
-
-
-jsonCartShopping.forEach(function(object) {
-
-var row = '<tr><td>'+ object.nazwa +'</td><td class="costProduct">' + object.cena_brutto + '</td><td>'+ '<input onchange="calculationCart()" type="number" name="quantity" value="1" min="1" max="10">' + '</td></tr>';
-$row = $(row),
-
-resort = true;
-$('#myTable2')
-.find('tbody').append($row)
-.trigger('addRows', [$row, resort]);
-
-calculationCart();
-
-return false;
-
-});
-
-//
-});
 
 const allProductInput = document.getElementById('allProducts');
 const costCurierInput = document.getElementById('costCurier');
@@ -675,5 +668,11 @@ function selectedCurier() {
 
   allCostInput.value = (parseFloat(allProductsCost) + parseFloat(curierBox.value)).toFixed(2) + ' zł';
 
+}
+
+function finishShopping() {
+
+  localStorage.removeItem('myElement');
+  alert("Twoje zamówienie zostało przekazane do realizacji");
 }
 
