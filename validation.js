@@ -23,6 +23,7 @@ const myTable = document.getElementById("myTable");
 const dodajProduktBtn = document.getElementById("btn-dodaj");
 const curierBox = document.getElementById("curier");
 const buyCart = document.getElementById("buyCart");
+const myTableNew = document.getElementById("myTableNew");
 
 
 let statusValidation = false;
@@ -676,3 +677,52 @@ function finishShopping() {
   alert("Twoje zamówienie zostało przekazane do realizacji");
 }
 
+let changeView = false;
+const elements = document.getElementsByClassName("photoNew");
+const countRowInTable = document.getElementById('myTable').getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+
+
+function loadNewView(){
+  console.log("załaduj nowy widok");
+
+  myTable.style.display = 'none';
+  myTableNew.style.display = 'grid'
+//
+
+addItem();
+  
+
+  if (changeView) {
+    myTable.style.display = 'block';
+  myTableNew.style.display = 'none'
+  changeView = false;
+  var elements = document.getElementsByClassName('grid-item');
+    while(elements.length > 0){
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+  return; 
+  }
+
+  changeView = true;
+}
+
+function addItem() {
+  
+  for (let i = 0; i < countRowInTable ; i++) {
+    
+    var elem = document.createElement("img");
+    elem.setAttribute("src", "/nophotos.jpg");
+   elem.setAttribute("height", "250");
+    let div = document.createElement("div");
+
+    div.innerHTML = 'Nazwa produktu : ' +  myTable.rows[i+1].cells[0].innerHTML +'<br/>Cena produktu : ' + myTable.rows[i+1].cells[2].innerHTML +' zł<br/>Cena brutto ' +'('+ myTable.rows[i+1].cells[4].innerHTML + ' zł)';
+
+
+  div.classList.add("grid-item");
+  div.appendChild(elem);
+
+myTableNew.appendChild(div);
+
+  }
+
+}

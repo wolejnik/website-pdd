@@ -80,9 +80,10 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <button type="button" class="btn btn-primary" onclick="loaderProduct()" id="btn-json"
-                            style="width:476.4px; margin:0 auto;">Załaduj plik JSON</button>
-                        <div id="validationTrue"></div>
+                        <button type="button" class="btn btn-primary" onclick="loaderProduct()" id="btn-json">Załaduj plik JSON</button>
+                        <br/>
+                        <br/>
+                        <button type="button" class="btn btn-primary" onclick="loadNewView()" id="btn-json">Zmień widok tabeli</button>
                     </div>
 
                 </div>
@@ -331,9 +332,45 @@
                             <td><button type="button" class="remove" title="Remove this row">X</button></td>
                             <td><button type="button" onclick="updateTable(this)">🖊</button></td>
                             <td class="use-local-storage"><button type="button">🛒</button></td>
+                            <!-- latest('tr')-->
+                        </tr>
+                        <tr>
+                            <td>Łańcuch</td>
+                            <td>23-X1</td>
+                            <td>10.00</td>
+                            <td>20</td>
+                            <td>12.00</td>
+                            <td>Two</td>
+                            <td>Lekki, Uzyteczny</td>
+                            <td>1</td>
+                            <td>lancuch.png</td>
+                            <td><button type="button" class="remove" title="Remove this row">X</button></td>
+                            <td><button type="button" onclick="updateTable(this)">🖊</button></td>
+                            <td class="use-local-storage"><button type="button">🛒</button></td>
+                            <!-- latest('tr')-->
+                        </tr>
+                        <tr>
+                            <td>Bagażnik</td>
+                            <td>XX-B1</td>
+                            <td>100.00</td>
+                            <td>20</td>
+                            <td>120.00</td>
+                            <td>Three</td>
+                            <td>Ciezki, Uzyteczny</td>
+                            <td>3</td>
+                            <td>bagaznik.png</td>
+                            <td><button type="button" class="reove" title="Remove this row">X</button></td>
+                            <td><button type="button" onclick="updateTable(this)">🖊</button></td>
+                            <td class="use-local-storage"><button type="button">🛒</button></td>
+                            <!-- latest('tr')-->
                         </tr>
                     </tbody>
                 </table>
+
+                <div id="myTableNew" class="grid-container">
+
+                </div>
+                
             </div>
             <div class="col-sm-2">
                 <div class="alert alert-dark" style="text-align: center; height: auto;">
